@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yf.system.mapper.SysRoleMapper">
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( idList )">
+				 And ROLE_ID in 
+			    <foreach item="item" collection="idList" separator="," open="(" close=")" index="">  
+			      #{item}  
+			    </foreach>  
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( notRoleId )">
+				AND ROLE_ID != #{notRoleId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleNameLike )">
+				AND ROLE_NAME like '%${roleNameLike}%'
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleId )">
+				AND role_id = #{roleId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleName )">
+				AND role_name = #{roleName}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleDesc )">
+				AND role_desc = #{roleDesc}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleOrder )">
+				AND role_order = #{roleOrder}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleType )">
+				AND role_type = #{roleType}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( roleStatus )">
+				AND role_status = #{roleStatus}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeStart )">
+				AND <![CDATA[create_time >= #{createTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeEnd )">
+				AND <![CDATA[create_time <= #{createTimeEnd}]]>
+			</if>
+		 	<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeStart )">
+				AND <![CDATA[update_time >= #{updateTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeEnd )">
+				AND  <![CDATA[update_time <= #{updateTimeEnd}]]> 
+			</if> 
+		</where>
+	</sql>
+	
+	<select id="selectRolesByUserId" parameterType="Long" resultMap="BaseResultMap">
+		select t1.role_id, t1.role_name, t1.role_desc, t1.role_order, t1.role_type, t1.role_status 
+		   from t_s_role t1, t_s_role_user t2
+		where  t1.role_status=1  and  t2.user_id = #{userid}
+		  and t1.role_id = t2.role_id	
+	</select>
+	
+</mapper>

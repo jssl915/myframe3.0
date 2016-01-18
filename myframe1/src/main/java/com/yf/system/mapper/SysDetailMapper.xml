@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yf.system.mapper.SysDetailMapper">
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( idList )">
+				 And detail_id in 
+			    <foreach item="item" collection="idList" separator="," open="(" close=")" index="">  
+			      #{item}  
+			    </foreach>  
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( notDetailId )">
+				AND detail_id != #{notDetailId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( detailNameLike )">
+				AND DETAIL_NAME like '%${detailNameLike}%'
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( detailId )">
+				AND detail_id = #{detailId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( dictId )">
+				AND dict_id = #{dictId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( detailName )">
+				AND detail_name = #{detailName}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( detailValue )">
+				AND detail_value = #{detailValue}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( detailDesc )">
+				AND detail_desc = #{detailDesc}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( detailStatus )">
+				AND detail_status = #{detailStatus}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeStart )">
+				AND <![CDATA[create_time >= #{createTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeEnd )">
+				AND <![CDATA[create_time <= #{createTimeEnd}]]>
+			</if>
+		 	<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeStart )">
+				AND <![CDATA[update_time >= #{updateTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeEnd )">
+				AND  <![CDATA[update_time <= #{updateTimeEnd}]]> 
+			</if> 
+		</where>
+	</sql>
+
+	<delete id="deleteByCondition" parameterType="java.util.Map">
+		delete from t_s_detail
+		<include refid="Example_Where_Clause" />
+	</delete>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yf.system.mapper.SysUserMapper">
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( idList )">
+				 And user_id in 
+			    <foreach item="item" collection="idList" separator="," open="(" close=")" index="">  
+			      #{item}  
+			    </foreach>  
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( notUserId )">
+				  AND USER_ID != #{notUserId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userId )">
+				AND user_id = #{userId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userName )">
+				AND user_name = #{userName}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userNameLike )">
+				AND user_name like '%${userNameLike}%'
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userOrder )">
+				AND user_order = #{userOrder}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userType )">
+				AND user_type = #{userType}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userStatus )">
+				AND user_status = #{userStatus}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userPwd )">
+				AND user_pwd = #{userPwd}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeStart )">
+				AND <![CDATA[create_time >= #{createTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeEnd )">
+				AND <![CDATA[create_time <= #{createTimeEnd}]]>
+			</if>
+		 	<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeStart )">
+				AND <![CDATA[update_time >= #{updateTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeEnd )">
+				AND  <![CDATA[update_time <= #{updateTimeEnd}]]> 
+			</if> 
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( realName )">
+				AND real_name like '%${realName}%'
+			</if>
+		</where>
+	</sql>
+</mapper>

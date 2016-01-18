@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yf.system.mapper.SysMenuMapper">
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( idList )">
+				 And MENU_ID in 
+			    <foreach item="item" collection="idList" separator="," open="(" close=")" index="">  
+			      #{item}  
+			    </foreach>  
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( notMenuId )">
+				AND MENU_ID != #{notMenuId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( pMenuId )">
+				and MENU_ID = #{pMenuId}
+				or menu_pid = #{pMenuId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuNameLike )">
+				AND MENU_NAME like '%${menuNameLike}%'
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuId )">
+				AND menu_id = #{menuId}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuName )">
+				AND menu_name = #{menuName}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuDesc )">
+				AND menu_desc = #{menuDesc}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuUrl )">
+				AND menu_url = #{menuUrl}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuPid )">
+				AND menu_pid = #{menuPid}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuType )">
+				AND menu_type = #{menuType}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuStatus )">
+				AND menu_status = #{menuStatus}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuLevel )">
+				AND menu_level = #{menuLevel}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuIcon )">
+				AND menu_icon = #{menuIcon}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeStart )">
+				AND <![CDATA[create_time >= #{createTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeEnd )">
+				AND <![CDATA[create_time <= #{createTimeEnd}]]>
+			</if>
+		 	<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeStart )">
+				AND <![CDATA[update_time >= #{updateTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( updateTimeEnd )">
+				AND  <![CDATA[update_time <= #{updateTimeEnd}]]> 
+			</if> 
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( menuOrder )">
+				AND menu_order = #{menuOrder}
+			</if>
+		</where>
+	</sql>
+	<delete id="deleteByCondition"  parameterType="java.util.Map" >
+		 delete from  t_s_menu
+		 <include refid="Example_Where_Clause" />
+	</delete> 
+	<select id="getAllMenus" parameterType="Long" resultMap="BaseResultMap">
+		select  distinct  t1.menu_id, menu_name, menu_desc, menu_url, menu_pid,menu_type,menu_status, menu_level, menu_icon, create_time,
+		           update_time,menu_order  
+		   from t_s_menu t1, t_s_role_user t2, t_s_role_menu t3
+		where  menu_status=1  and  t2.user_id = #{userid}
+		  and t2.role_id =t3.role_id
+          and t3.menu_id=t1.menu_id 
+           order by t1.menu_order asc		
+	</select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yf.system.mapper.SysLogMapper">
+
+	<sql id="Example_Where_Clause" >
+		<where>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( idList )">
+				 And log_id in 
+			    <foreach item="item" collection="idList" separator="," open="(" close=")" index="">  
+			      #{item}  
+			    </foreach>  
+			</if>
+			<if  test="@com.cykj.grcloud.util.Ognl@isNotEmpty( logId )">
+				  AND log_id = #{logId}
+			</if>
+			<if  test="@com.cykj.grcloud.util.Ognl@isNotEmpty( actionUrl )">
+				  AND action_url = #{actionUrl}
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeStart )">
+				AND <![CDATA[log_time >= #{createTimeStart}]]>
+			</if>
+			<if test="@com.cykj.grcloud.util.Ognl@isNotEmpty( createTimeEnd )">
+				AND <![CDATA[log_time <= #{createTimeEnd}]]>
+			</if>
+			<if  test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userIp )">
+				  AND user_ip = #{userIp}
+			</if>
+			<if  test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userId )">
+				  AND user_id = #{userId}
+			</if>
+			<if  test="@com.cykj.grcloud.util.Ognl@isNotEmpty( logDesc )">
+				  AND log_desc = #{logDesc}
+			</if>
+			<if  test="@com.cykj.grcloud.util.Ognl@isNotEmpty( userName )">
+				  AND user_name = #{userName}
+			</if>
+		</where>
+	</sql>
+</mapper>
